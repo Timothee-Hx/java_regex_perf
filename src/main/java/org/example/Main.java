@@ -3,16 +3,18 @@ package org.example;
 public class Main {
     public static void main(String[] args) {
 
-        String email1 = "tim.ttt@ddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd.......................................................................................................";
-        String email2 = "timddd@gmail.com";
-        // regex
+        String email1 = "..........................................@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@";
+       // String email1 = "aaaaaaaaaaaaaaaaaaaaaaaa!";
+                String email2 = "emailddd@gmail.com";
+
         String regexPluginEmailAppoiment = "^$|(?:[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-zA-Z0-9!#$%&'*+/=?^_`{|}~-]+)*|\"(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21\\x23-\\x5b\\x5d-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])*\")@(?:(?:[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?\\.)+[a-zA-Z0-9](?:[a-zA-Z0-9-]*[a-zA-Z0-9])?|\\[(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?|[a-zA-Z0-9-]*[a-zA-Z0-9]:(?:[\\x01-\\x08\\x0b\\x0c\\x0e-\\x1f\\x21-\\x5a\\x53-\\x7f]|\\\\[\\x01-\\x09\\x0b\\x0c\\x0e-\\x7f])+)\\])";
-        String regexEmailProblem = "[a-z]+@[a-z]+([a-z\\.]+\\.)+[a-z]+";
+     // this regex below is vulnerable to dos with : aaaaaaaaaaaaaaaaaaaaaaaa!
+        String regexEmailProblem = "^([a-zA-Z0-9])(([\\-.]|[_]+)?([a-zA-Z0-9]+))*(@){1}[a-z0-9]+[.]{1}(([a-z]{2,3})|([a-z]{2,3}[.]{1}[a-z]{2,3}))$";
         //https://www.baeldung.com/java-email-validation-regex
         // https://owasp.org/www-community/OWASP_Validation_Regex_Repository
         String regexEmailSafeOwasp ="^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$";
 
-        System.out.println("###############   With regexEmailSafeOwasp : ##################" );
+        System.out.println("###############   With regex EmailSafe Owasp : ##################" );
         System.out.println("\n" );
 
         long startTime = System.currentTimeMillis();
@@ -22,19 +24,17 @@ public class Main {
         System.out.println("duration INVALID EMAIL millisecond: " + duration);
         System.out.println("match INVALID EMAIL : " + match);
         System.out.println("\n" );
-
          startTime = System.currentTimeMillis();
          match = email2.matches(regexEmailSafeOwasp);
          endTime = System.currentTimeMillis();
          duration = (endTime - startTime);
         System.out.println(" duration VALID EMAIL millisecond: " + duration);
-        System.out.println("match2 VALID email: " + match);
-
+        System.out.println("match VALID email: " + match);
         System.out.println("\n" + "\n" );
 
 
         // with regexPluginEmailAppoiment
-        System.out.println("$$$$$$$$$$$$$$$$$   With regexPluginEmailAppoiment : $$$$$$$$$$$$$$$$$$$" );
+        System.out.println("$$$$$$$$$$$$$$$$$   With regex Plugin Email Appoiment : $$$$$$$$$$$$$$$$$$$" );
         System.out.println("\n" );
         startTime = System.currentTimeMillis();
          match = email1.matches(regexPluginEmailAppoiment);
@@ -49,8 +49,25 @@ public class Main {
          endTime = System.currentTimeMillis();
          duration = (endTime - startTime);
         System.out.println(" duration VALID EMAIL millisecond: " + duration);
-        System.out.println("match2 VALID email: " + match);
-        // dropline
+        System.out.println("match VALID email: " + match);
+        System.out.println("\n" + "\n" );
+
+        System.out.println("$$$$$$$$$$$$$$$$$   With regex vulnérable redos : $$$$$$$$$$$$$$$$$$$" );
+        System.out.println("\n" );
+        startTime = System.currentTimeMillis();
+        match = email1.matches(regexEmailProblem);
+        endTime = System.currentTimeMillis();
+        duration = (endTime - startTime);
+        System.out.println("duration INVALID EMAIL millisecond: " + duration);
+        System.out.println("match INVALID EMAIL : " + match);
+        System.out.println("\n" );
+
+        startTime = System.currentTimeMillis();
+        match = email2.matches(regexEmailProblem);
+        endTime = System.currentTimeMillis();
+        duration = (endTime - startTime);
+        System.out.println(" duration VALID EMAIL millisecond: " + duration);
+        System.out.println("match VALID email: " + match);
         System.out.println("\n" + "\n" );
 
 
